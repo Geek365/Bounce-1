@@ -15,7 +15,7 @@ public class Bounce extends ApplicationAdapter {
     public static Collision collision;
     private OrthographicCamera camera;
     private Box2DDebugRenderer debugRenderer;
-    private RequestHandler androidHandler;
+    private final RequestHandler androidHandler;
     private InputProcessor ip;
     private Level level;
     public static Ball ball;
@@ -54,7 +54,7 @@ public class Bounce extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(Level.world, camera.combined);
         if (state == status.RUNNING) { level.render(); }
-        else if (state == status.PAUSED) { }
+        else if (state == status.PAUSED) { } // TODO Implement Dimming
         else if (state == status.WON) { playerWins(); }
         else if (state == status.LOST) { playerLoses(); }
     }
@@ -83,8 +83,13 @@ public class Bounce extends ApplicationAdapter {
                     androidHandler.levelSelector(new DialogResult() {
                         @Override
                         public void yes(int a) {
+                            prefs.putBoolean("nagMessage", false);
+                            prefs.putInteger("currentLevel", a);
+                            prefs.flush();
+                            attempts = prefs.getInteger("level"+a+"Attempts", 0);
                             resetBall();
                             level.loadLevel(a);
+                            state = status.RUNNING;
                         }
 
                         @Override
@@ -102,6 +107,7 @@ public class Bounce extends ApplicationAdapter {
     }
 
     public void playerWins() {
+        state = status.PAUSED;
         resetBall();
         androidHandler.levelCompleteDialog(new DialogResult() {
             @Override
@@ -109,18 +115,18 @@ public class Bounce extends ApplicationAdapter {
                 if (maxLevel + 1 < androidHandler.getLevelsPaidFor()) {
                     maxLevel++;
                     prefs.putInteger("maxLevel", maxLevel);
-                    prefs.putInteger("level" + currentLevel + "Attempts", attempts);
+                    prefs.putInteger("level" + currentLevel + "Attempts", 0);
                     currentLevel++;
                     prefs.putInteger("currentLevel", currentLevel);
                     prefs.flush();
                     level.loadLevel(currentLevel);
+                    state = status.RUNNING;
                 } else {
                     prefs.putBoolean("nagMessage", true);
                     prefs.flush();
                     nagUser();
                 }
             }
-
             @Override
             public void no() {
                 attempts=0;

@@ -47,6 +47,9 @@ public class Collision implements ContactListener {
             else if ((fixtureA.getUserData().equals(Level.TRAMPOLINE)) || (fixtureB.getUserData().equals(Level.TRAMPOLINE))) {
                 trampolineHandler();
             }
+            else if ((fixtureA.getUserData().equals(Level.ENDPOINT)) || (fixtureB.getUserData().equals(Level.ENDPOINT))) {
+                endpointHandler();
+            }
             collisionToProcess = false;
         }
     }
@@ -65,13 +68,11 @@ public class Collision implements ContactListener {
     }
 
     public void wallHandler() {
-        if (fixtureA.getUserData().getClass() == Ball.class) {
-            bll = (Ball) fixtureA.getUserData();
-        }
-        else {
-            bll = (Ball) fixtureB.getUserData();
-        }
         Bounce.state = Bounce.status.LOST;
+    }
+
+    public void endpointHandler() {
+        Bounce.state = Bounce.status.WON;
     }
 
     public void trampolineHandler() {

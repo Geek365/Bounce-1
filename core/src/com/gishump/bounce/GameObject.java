@@ -7,6 +7,5 @@ public interface GameObject {
     void update();
     void draw();
     Body getBody();
-    FixtureDef getFixture();
     int getHorizontalEnd();
 }

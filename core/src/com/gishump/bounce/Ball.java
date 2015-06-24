@@ -49,7 +49,4 @@ public class Ball implements GameObject{
 
     @Override
     public Body getBody(){ return this.ball; }
-
-    @Override
-    public FixtureDef getFixture() { return this.ballFixtureDef; }
 }

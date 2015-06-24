@@ -16,6 +16,7 @@ public class Level {
     // Object ID Declarations (For Collision Callbacks)
     public static final Byte WALL = Byte.valueOf((byte)20);
     public static final Byte TRAMPOLINE = Byte.valueOf((byte)5);
+    public static final Byte ENDPOINT = Byte.valueOf((byte)2);
     // Field Declarations
     public static World world;
     private Body bottomWall, topWall, leftWall, rightWall;
@@ -77,11 +78,20 @@ public class Level {
                     portals.add(new Portal(Integer.parseInt(currentline[1]), Integer.parseInt(currentline[2]), Integer.parseInt(currentline[3]), Integer.parseInt(currentline[4]), world));
                 } else if (currentid == 4) {
                     portals.add(new SlidingPortal(Integer.parseInt(currentline[1]), Integer.parseInt(currentline[2]), Integer.parseInt(currentline[3]), Integer.parseInt(currentline[4]), Integer.parseInt(currentline[5]), Integer.parseInt(currentline[6]), (currentline[7] == "horizontal"), (currentline[8] == "horizontal"), Float.parseFloat(currentline[9]), Float.parseFloat(currentline[10]), world));
+                } else if (currentid == 5) {
+                    gameObjects.add(new Trampoline(Integer.parseInt(currentline[1]), Integer.parseInt(currentline[2]), Integer.parseInt(currentline[3]), Float.parseFloat(currentline[4]), world));
+                } else if (currentid == 6) {
+                    slingshots.add(new Slingshot(Integer.parseInt(currentline[1]), Integer.parseInt(currentline[2]), world));
+                } else if (currentid == 7) {
+                    // TODO Implement Flame Block Class And Tie It In Here
+                } else if (currentid == 8) {
+                    gameObjects.add(new Endpoint(Integer.parseInt(currentline[1]),Integer.parseInt(currentline[2]), world));
                 }
             }
             createWalls();
             slingshots.add(new Slingshot(300, 150, world)); // For Testing
             gameObjects.add(new Trampoline(230, 23, 60, 0, world)); // For Testing
+            gameObjects.add(new Endpoint(1, 100, world));
         }
     }
 

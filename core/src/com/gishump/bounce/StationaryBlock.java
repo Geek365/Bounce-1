@@ -8,9 +8,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class StationaryBlock implements GameObject {
-    protected Body boxBody;
-    protected FixtureDef boxFixtureDef;
-    protected Fixture boxFixture;
+    protected final Body boxBody;
+    protected final FixtureDef boxFixtureDef;
+    protected final Fixture boxFixture;
     protected int horizontalEnd;
 
     public StationaryBlock(int x, int y, int width, int height, float angle, World world) {
@@ -30,22 +30,15 @@ public class StationaryBlock implements GameObject {
     }
 
     @Override
-    public void draw(){
-
-    }
+    public void draw(){ }
 
     @Override
-    public void update(){
-
-    }
+    public void update(){ }
 
     @Override
     public Body getBody(){ return this.boxBody; }
 
     @Override
-    public FixtureDef getFixture() { return this.boxFixtureDef; }
-
     public int getHorizontalEnd() { return horizontalEnd; }
 
-    public void setPosition(float x, float y) { boxBody.setTransform(x,y,boxBody.getAngle()); }
 }

@@ -9,14 +9,14 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Slingshot {
-    final float xPosition;
-    final float yPosition;
+    final int xPosition;
+    final int yPosition;
     final float width = 20;
     final float height = 30;
     final private Body slingshotBody;
     final private FixtureDef slingshotFixtureDef;
     final private Fixture slingshotFixture;
-    public Slingshot(float x, float y, World world){
+    public Slingshot(int x, int y, World world){
         BodyDef slingshot = new BodyDef();
         PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox(width/2, height/2);
