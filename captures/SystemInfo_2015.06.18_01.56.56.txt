@@ -1,0 +1,153 @@
+CURRENT STATS:
+Per-Package Stats:
+  * com.gishump.bounce.android / u0a129 / v1:
+      * com.gishump.bounce.android / u0a129 / v1:
+               TOTAL: 97% (53MB-55MB-56MB/52MB-53MB-54MB over 2)
+                 Top: 97% (53MB-55MB-56MB/52MB-53MB-54MB over 2)
+
+Summary:
+  * com.gishump.bounce.android / u0a129 / v1:
+           TOTAL: 97% (53MB-55MB-56MB/52MB-53MB-54MB over 2)
+             Top: 97% (53MB-55MB-56MB/52MB-53MB-54MB over 2)
+
+Run time Stats:
+  SOn /Norm: +2m25s72ms (running)
+      TOTAL: +2m25s72ms
+
+Memory usage:
+  Top    : 54MB (3 samples)
+  ImpFg  : 5.5MB (4 samples)
+  Service: 72MB (22 samples)
+  Receivr: 8.6KB (16 samples)
+  Home   : 42MB (1 samples)
+  LastAct: 1.7MB (2 samples)
+  CchAct : 94MB (1 samples)
+  CchEmty: 51MB (9 samples)
+  TOTAL  : 320MB
+
+          Start time: 2015-06-18 01:54:30
+  Total elapsed time: +2m25s97ms (partial) libart.so
+
+AGGREGATED OVER LAST 24 HOURS:
+System memory usage:
+  SOff/Norm: 12 samples:
+    Cached: 0.00 min, 28MB avg, 164MB max
+    Free: 51MB min, 85MB avg, 137MB max
+    ZRam: 25MB min, 39MB avg, 44MB max
+    Kernel: 131MB min, 147MB avg, 155MB max
+    Native: 104MB min, 121MB avg, 155MB max
+  SOn /Norm: 49 samples:
+    Cached: 0.00 min, 22MB avg, 120MB max
+    Free: 47MB min, 96MB avg, 291MB max
+    ZRam: 25MB min, 38MB avg, 45MB max
+    Kernel: 130MB min, 142MB avg, 178MB max
+    Native: 88MB min, 114MB avg, 179MB max
+       Mod : 1 samples:
+    Cached: 0.00 min, 0.00 avg, 0.00 max
+    Free: 124MB min, 124MB avg, 124MB max
+    ZRam: 26MB min, 26MB avg, 26MB max
+    Kernel: 167MB min, 167MB avg, 167MB max
+    Native: 117MB min, 117MB avg, 117MB max
+
+Per-Package Stats:
+  * com.gishump.bounce.android / u0a129 / v1:
+      * com.gishump.bounce.android / u0a129 / v1:
+               TOTAL: 4.1% (40MB-53MB-56MB/39MB-51MB-55MB over 46)
+                 Top: 4.1% (40MB-53MB-56MB/39MB-51MB-55MB over 46)
+          (Last Act): 1.5% (25MB-25MB-27MB/23MB-24MB-26MB over 5)
+            (Cached): 61% (17MB-21MB-27MB/17MB-20MB-25MB over 78)
+
+Summary:
+  * com.gishump.bounce.android / u0a129 / v1:
+           TOTAL: 4.1% (40MB-53MB-56MB/39MB-51MB-55MB over 46)
+             Top: 4.1% (40MB-53MB-56MB/39MB-51MB-55MB over 46)
+      (Last Act): 1.5% (25MB-25MB-27MB/23MB-24MB-26MB over 5)
+        (Cached): 61% (17MB-21MB-27MB/17MB-20MB-25MB over 78)
+
+Run time Stats:
+  SOff/Norm: +20h10m58s725ms
+       Mod : +1m25s313ms
+  SOn /Norm: +3h34m52s470ms
+       Mod : +35s455ms
+       Low : +2s568ms
+      TOTAL: +23h47m54s531ms
+
+Memory usage:
+  Kernel : 146MB (433 samples)
+  Native : 120MB (433 samples)
+  Persist: 191MB (2040 samples)
+  Top    : 91MB (2051 samples)
+  ImpFg  : 164MB (6112 samples)
+  ImpBg  : 17KB (3744 samples)
+  Service: 240MB (8222 samples)
+  Receivr: 37KB (6491 samples)
+  Home   : 13MB (234 samples)
+  LastAct: 61MB (1145 samples)
+  CchAct : 489MB (1854 samples)
+  CchCAct: 91MB (475 samples)
+  CchEmty: 84MB (2084 samples)
+  Cached : 27MB (433 samples)
+  Free   : 87MB (433 samples)
+  Z-Ram  : 39MB (433 samples)
+  TOTAL  : 1.8GB
+  ServRst: 7.2KB (848 samples)
+
+          Start time: 2015-06-17 00:48:15
+  Total elapsed time: +1d1h8m46s993ms (partial) libart.so
+
+AGGREGATED OVER LAST 3 HOURS:
+System memory usage:
+  SOff/Norm: 4 samples:
+    Cached: 0.00 min, 66MB avg, 164MB max
+    Free: 51MB min, 102MB avg, 137MB max
+    ZRam: 38MB min, 41MB avg, 44MB max
+    Kernel: 144MB min, 147MB avg, 152MB max
+    Native: 113MB min, 124MB avg, 155MB max
+  SOn /Norm: 8 samples:
+    Cached: 0.00 min, 46MB avg, 110MB max
+    Free: 75MB min, 103MB avg, 145MB max
+    ZRam: 38MB min, 39MB avg, 44MB max
+    Kernel: 138MB min, 147MB avg, 178MB max
+    Native: 107MB min, 131MB avg, 139MB max
+
+Per-Package Stats:
+  * com.gishump.bounce.android / u0a129 / v1:
+      * com.gishump.bounce.android / u0a129 / v1:
+               TOTAL: 16% (53MB-54MB-56MB/52MB-53MB-55MB over 21)
+                 Top: 16% (53MB-54MB-56MB/52MB-53MB-55MB over 21)
+            (Cached): 12% (24MB-24MB-24MB/23MB-23MB-23MB over 5)
+
+Summary:
+  * com.gishump.bounce.android / u0a129 / v1:
+           TOTAL: 16% (53MB-54MB-56MB/52MB-53MB-55MB over 21)
+             Top: 16% (53MB-54MB-56MB/52MB-53MB-55MB over 21)
+        (Cached): 12% (24MB-24MB-24MB/23MB-23MB-23MB over 5)
+
+Run time Stats:
+  SOff/Norm: +1h51m20s955ms
+  SOn /Norm: +1h11m21s817ms
+       Low : +10ms
+      TOTAL: +3h2m42s782ms
+
+Memory usage:
+  Kernel : 147MB (84 samples)
+  Native : 127MB (84 samples)
+  Persist: 187MB (224 samples)
+  Top    : 103MB (229 samples)
+  ImpFg  : 166MB (756 samples)
+  ImpBg  : 21KB (329 samples)
+  Service: 188MB (1248 samples)
+  Receivr: 35KB (913 samples)
+  Home   : 31MB (62 samples)
+  LastAct: 69MB (131 samples)
+  CchAct : 413MB (258 samples)
+  CchCAct: 53MB (73 samples)
+  CchEmty: 69MB (369 samples)
+  Cached : 58MB (84 samples)
+  Free   : 103MB (84 samples)
+  Z-Ram  : 40MB (84 samples)
+  TOTAL  : 1.7GB
+  ServRst: 2.6KB (104 samples)
+
+          Start time: 2015-06-17 22:52:40
+  Total elapsed time: +3h4m15s537ms (partial) libart.so
