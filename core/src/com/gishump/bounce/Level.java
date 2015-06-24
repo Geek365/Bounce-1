@@ -29,8 +29,6 @@ public class Level {
         gameObjects = new ArrayList<GameObject>();
         portals = new ArrayList<Portal>();
         slingshots = new ArrayList<Slingshot>();
-        //slingshots.add(new Slingshot(300, 150, world));
-        //gameObjects.add(new Trampoline(230, 23, 60, 0, world));
     }
 
     public void clearLevel() {
@@ -40,10 +38,10 @@ public class Level {
             world.destroyBody(p.getPortalBBody());
         }
         for (Slingshot s : slingshots) { world.destroyBody(s.getBody()); }
-        world.destroyBody(bottomWall);
-        world.destroyBody(topWall);
-        world.destroyBody(leftWall);
-        world.destroyBody(rightWall);
+        if (bottomWall!=null) world.destroyBody(bottomWall);
+        if (topWall!= null) world.destroyBody(topWall);
+        if (leftWall!= null) world.destroyBody(leftWall);
+        if (rightWall!= null) world.destroyBody(rightWall);
         gameObjects.clear();
         portals.clear();
         slingshots.clear();
@@ -82,6 +80,8 @@ public class Level {
                 }
             }
             createWalls();
+            slingshots.add(new Slingshot(300, 150, world)); // For Testing
+            gameObjects.add(new Trampoline(230, 23, 60, 0, world)); // For Testing
         }
     }
 

@@ -140,4 +140,9 @@ public class Bounce extends ApplicationAdapter {
         ball = null;
     }
 
+    @Override
+    public void dispose() {
+        level.clearLevel();
+        debugRenderer.dispose();
+    }
 }
