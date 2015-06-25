@@ -24,8 +24,11 @@ public class Level {
     private ArrayList<Portal> portals;
     private ArrayList<Slingshot> slingshots;
     private int currentSlingshot;
+    private int currentLevelWidth;
+    private Camera camera;
 
-    public Level() {
+    public Level(Camera cam) {
+        camera = cam;
         world = new World(new Vector2(0, -30), true);
         gameObjects = new ArrayList<GameObject>();
         portals = new ArrayList<Portal>();
@@ -114,21 +117,21 @@ public class Level {
     }
 
     public void createWalls() {
-        int levelwidth = getLevelWidth();
+        currentLevelWidth = getLevelWidth();
         BodyDef wallDef = new BodyDef();
         wallDef.type = BodyDef.BodyType.KinematicBody;
-        wallDef.position.set(levelwidth/2,-40);
+        wallDef.position.set(currentLevelWidth/2,-40);
         bottomWall = world.createBody(wallDef);
-        wallDef.position.set(levelwidth/2,Bounce.height+240);
+        wallDef.position.set(currentLevelWidth/2,Bounce.height+240);
         topWall = world.createBody(wallDef);
         wallDef.position.set(-70,(Bounce.height+200)/2);
         leftWall = world.createBody(wallDef);
-        wallDef.position.set(levelwidth+70,(Bounce.height+200)/2);
+        wallDef.position.set(currentLevelWidth+70,(Bounce.height+200)/2);
         rightWall = world.createBody(wallDef);
         PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(levelwidth+34, 1f);
+        groundBox.setAsBox(currentLevelWidth+34, 1f);
         Fixture bottomWallFix = bottomWall.createFixture(groundBox, 0f);
-        groundBox.setAsBox(levelwidth+34, 1f);
+        groundBox.setAsBox(currentLevelWidth+34, 1f);
         Fixture topWallFix = topWall.createFixture(groundBox, 0f);
         groundBox.setAsBox(1f, Bounce.height+25);
         Fixture leftWallFix = leftWall.createFixture(groundBox, 0f);

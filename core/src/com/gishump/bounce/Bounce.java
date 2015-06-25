@@ -5,20 +5,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class Bounce extends ApplicationAdapter {
-    public enum status {RUNNING, PAUSED, WON, LOST};
+    public enum status {RUNNING, PAUSED, WON, LOST, IDLE};
     public static status state;
     public static int height, width;
     public static Collision collision;
-    private OrthographicCamera camera;
+    public static Ball ball;
+    private Camera camera;
     private Box2DDebugRenderer debugRenderer;
     private final RequestHandler androidHandler;
     private InputProcessor ip;
     private Level level;
-    public static Ball ball;
     private Preferences prefs;
     private int attempts = 0;
     private int currentLevel = 0;
@@ -34,13 +33,11 @@ public class Bounce extends ApplicationAdapter {
 	public void create () {
         width = Gdx.graphics.getWidth() / 5;
         height = Gdx.graphics.getHeight() / 5;
-        camera = new OrthographicCamera(width, height);
+        camera = new Camera(width, height);
         debugRenderer = new Box2DDebugRenderer();
-        camera.position.set(width * .5f, height * .5f, 0);
-        camera.update();
         prefs = Gdx.app.getPreferences("Preferences");
         collision = new Collision();
-        level = new Level();
+        level = new Level(camera);
         ip = new Input(level,androidHandler);
         Level.world.setContactListener(collision);
         loadUserData();
@@ -52,7 +49,7 @@ public class Bounce extends ApplicationAdapter {
 	public void render () {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        debugRenderer.render(Level.world, camera.combined);
+        debugRenderer.render(Level.world, camera.getCombinedMatrix());
         if (state == status.RUNNING) { level.render(); }
         else if (state == status.PAUSED) { } // TODO Implement Dimming
         else if (state == status.WON) { playerWins(); }
