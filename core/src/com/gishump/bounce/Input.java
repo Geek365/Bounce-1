@@ -4,7 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 
 public class Input implements InputProcessor {
     private int startx, starty;
-    private enum touchMode {SLINGSHOT, SCROLL, NONE}; // false = slingshot, true = scrolling around level
+    private enum touchMode {SLINGSHOT, SCROLL, NONE};
     private touchMode mode;
     private final RequestHandler androidHandler;
     private final Level level;
@@ -40,6 +40,10 @@ public class Input implements InputProcessor {
                  androidHandler.showMenu();
                  mode = touchMode.NONE;
              }
+             else if (x/5 > Bounce.width - 80 && y/5 > Bounce.height - 80) {
+                 Bounce.state = Bounce.status.LOST;
+                 mode = touchMode.NONE;
+             }
              else if (Bounce.ball == null && level.getCurrentSlingshot().isTouching(x / 5, Bounce.height - y / 5)) {
                  Bounce.ball = new Ball(x / 5, (Bounce.height - y / 5), 20, Level.world);
                  mode = touchMode.SLINGSHOT;
@@ -57,7 +61,10 @@ public class Input implements InputProcessor {
             if (mode == touchMode.SLINGSHOT && Bounce.ball!=null) {
                 double strength = Math.hypot(startx - x, starty - y) / 80;
                 Bounce.ball.setVelocity((startx-x) * (float)strength, -(starty-y) * (float)strength);
-                Bounce.ball.enableGravity();
+                Bounce.ball.released = true;
+                if (level.getCurrentSlingshot().isTouching(x / 5, Bounce.height - y / 5)) {
+                    Bounce.ball.enableGravity();
+                }
             }
             else if (mode == touchMode.SCROLL) {
                 // TODO Implement Kinetic Scrolling

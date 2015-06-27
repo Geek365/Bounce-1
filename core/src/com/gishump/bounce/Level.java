@@ -23,7 +23,7 @@ public class Level {
     private ArrayList<GameObject> gameObjects;
     private ArrayList<Portal> portals;
     private ArrayList<Slingshot> slingshots;
-    private int currentSlingshot;
+    public static int currentSlingshot;
     public static int currentLevelWidth;
     private Camera camera;
 
@@ -65,6 +65,7 @@ public class Level {
             currentSlingshot = 0;
             String currentline[];
             int currentid;
+            int slingshotcount = 0;
             FileHandle file = Gdx.files.internal("levels/" + levelnum + ".lvl");
             String text = file.readString();
             String[] lines = text.split("\n");
@@ -84,7 +85,7 @@ public class Level {
                 } else if (currentid == 5) {
                     gameObjects.add(new Trampoline(Integer.parseInt(currentline[1]), Integer.parseInt(currentline[2]), Integer.parseInt(currentline[3]), Float.parseFloat(currentline[4]), world));
                 } else if (currentid == 6) {
-                    slingshots.add(new Slingshot(Integer.parseInt(currentline[1]), Integer.parseInt(currentline[2]), world));
+                    slingshots.add(new Slingshot(Integer.parseInt(currentline[1]), Integer.parseInt(currentline[2]), slingshotcount++, world));
                 } else if (currentid == 7) {
                     // TODO Implement Flame Block Class And Tie It In Here
                 } else if (currentid == 8) {
@@ -92,16 +93,14 @@ public class Level {
                 }
             }
             createWalls();
-            slingshots.add(new Slingshot(300, 150, world)); // For Testing
+            slingshots.add(new Slingshot(300, 150, 0, world)); // For Testing
             gameObjects.add(new Trampoline(230, 23, 60, 0, world)); // For Testing
             gameObjects.add(new Endpoint(1, 100, world));
             camera.showLevel();
         }
     }
 
-    public Slingshot getCurrentSlingshot() {
-        return slingshots.get(currentSlingshot);
-    }
+    public Slingshot getCurrentSlingshot() { return slingshots.get(currentSlingshot); }
 
     public int getLevelWidth() {
         int max=0;

@@ -12,6 +12,7 @@ public class Ball implements GameObject{
     private final Body ball;
     private final FixtureDef ballFixtureDef;
     private final Fixture ballFixture;
+    public boolean released;
 
     public Ball (int x, int y, float rad, World world) {
         BodyDef bdef = new BodyDef();

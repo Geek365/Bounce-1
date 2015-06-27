@@ -19,7 +19,7 @@ public class Bounce extends ApplicationAdapter {
     private InputProcessor ip;
     private Level level;
     private Preferences prefs;
-    private int attempts = 0;
+    private int attempts = 1;
     private int currentLevel = 0;
     private int maxLevel = 0;
     private int levelsPaidFor = 30;
@@ -61,7 +61,7 @@ public class Bounce extends ApplicationAdapter {
         nagMessage = prefs.getBoolean("nagMessage", false);
         if (!nagMessage) {
             currentLevel = prefs.getInteger("currentLevel", 1);
-            attempts = prefs.getInteger("level"+currentLevel+"Attempts", 0);
+            attempts = prefs.getInteger("level"+currentLevel+"Attempts", 1);
             maxLevel = prefs.getInteger("maxLevel", 0);
             level.loadLevel(currentLevel);
         }
@@ -84,7 +84,7 @@ public class Bounce extends ApplicationAdapter {
                             prefs.putBoolean("nagMessage", false);
                             prefs.putInteger("currentLevel", a);
                             prefs.flush();
-                            attempts = prefs.getInteger("level"+a+"Attempts", 0);
+                            attempts = prefs.getInteger("level"+a+"Attempts", 1);
                             resetBall();
                             level.loadLevel(a);
                             state = status.RUNNING;
@@ -118,6 +118,7 @@ public class Bounce extends ApplicationAdapter {
                     prefs.putInteger("currentLevel", currentLevel);
                     prefs.flush();
                     level.loadLevel(currentLevel);
+                    resetBall();
                     state = status.RUNNING;
                 } else {
                     prefs.putBoolean("nagMessage", true);
@@ -127,7 +128,7 @@ public class Bounce extends ApplicationAdapter {
             }
             @Override
             public void no() {
-                attempts=0;
+                attempts=1;
                 state = status.RUNNING;
             }
         },attempts);

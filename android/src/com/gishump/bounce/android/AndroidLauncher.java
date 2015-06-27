@@ -86,6 +86,7 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 		super.onDestroy();
 		if (mHelper != null) mHelper.dispose();
 		mHelper = null;
+		android.os.Process.killProcess(android.os.Process.myPid());
 	}
 
 	@Override

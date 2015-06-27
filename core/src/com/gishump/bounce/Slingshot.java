@@ -13,10 +13,11 @@ public class Slingshot {
     final int yPosition;
     final float width = 20;
     final float height = 30;
+    final private int ID;
     final private Body slingshotBody;
     final private FixtureDef slingshotFixtureDef;
     final private Fixture slingshotFixture;
-    public Slingshot(int x, int y, World world){
+    public Slingshot(int x, int y, int id, World world){
         BodyDef slingshot = new BodyDef();
         PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox(width/2, height/2);
@@ -30,11 +31,14 @@ public class Slingshot {
         slingshotFixture.setUserData(this);
         xPosition = x;
         yPosition = y;
+        ID = id;
     }
 
     public boolean isTouching(float ballX, float ballY) {
         return (ballX >= xPosition-width && ballX <= xPosition+width && ballY >= yPosition-height && ballY <= yPosition+height);
     }
+
+    public int getID() { return ID; }
 
     public int getHorizontalEnd() {
         return (int)(xPosition + (width/2));

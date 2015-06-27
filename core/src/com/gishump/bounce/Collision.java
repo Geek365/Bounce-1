@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 public class Collision implements ContactListener {
     private Portal ptl; // Portal Reference
     private Ball bll; // Ball Reference
+    private Slingshot sst; // Slingshot Reference
     private boolean collisionToProcess = false;
     private Fixture fixtureA, fixtureB;
 
@@ -28,7 +29,8 @@ public class Collision implements ContactListener {
     }
 
     @Override
-    public void endContact (Contact contact){ }
+    public void endContact (Contact contact){
+    }
 
     @Override
     public void preSolve (Contact contact, Manifold oldManifold){ }
@@ -72,9 +74,7 @@ public class Collision implements ContactListener {
 
     public void wallHandler() { Bounce.state = Bounce.status.LOST; }
 
-    public void endpointHandler() {
-        Bounce.state = Bounce.status.WON;
-    }
+    public void endpointHandler() { Bounce.state = Bounce.status.WON; }
 
     public void trampolineHandler() {
         if (fixtureA.getUserData().getClass() == Ball.class) {
@@ -88,7 +88,18 @@ public class Collision implements ContactListener {
     }
 
     public void slingshotHandler() {
-        // TODO Implement Slingshot Handler
+        if (fixtureA.getUserData().getClass() == Slingshot.class) {
+            sst = (Slingshot) fixtureA.getUserData();
+            bll = (Ball) fixtureB.getUserData();
+        }
+        else {
+            sst = (Slingshot) fixtureB.getUserData();
+            bll = (Ball) fixtureA.getUserData();
+        }
+        if (sst.getID() == Level.currentSlingshot && bll.released) { bll.enableGravity(); } // Gravity Starts Once Ball Passes The Slingshot
+        else {
+            // TODO Set Slingshot Hit As New Current and Make Ball Disappear
+        }
     }
 
 }
