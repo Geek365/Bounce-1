@@ -4,13 +4,16 @@ import com.badlogic.gdx.InputProcessor;
 
 public class Input implements InputProcessor {
     private int startx, starty;
-    private boolean lock;
-    private RequestHandler androidHandler;
-    private Level level;
+    private enum touchMode {SLINGSHOT, SCROLL, NONE}; // false = slingshot, true = scrolling around level
+    private touchMode mode;
+    private final RequestHandler androidHandler;
+    private final Level level;
+    private final Camera camera;
 
-    public Input(Level lvl, RequestHandler ah) {
+    public Input(Level lvl, RequestHandler ah, Camera cam) {
         level = lvl;
         androidHandler = ah;
+        camera = cam;
     }
 
     @Override
@@ -31,18 +34,18 @@ public class Input implements InputProcessor {
      @Override
      public boolean touchDown (int x, int y, int pointer, int button) {
          if (pointer == 0) {
+             startx = x;
+             starty = y;
              if (x < 80 && y < 80) {
                  androidHandler.showMenu();
+                 mode = touchMode.NONE;
+             }
+             else if (Bounce.ball == null && level.getCurrentSlingshot().isTouching(x / 5, Bounce.height - y / 5)) {
+                 Bounce.ball = new Ball(x / 5, (Bounce.height - y / 5), 20, Level.world);
+                 mode = touchMode.SLINGSHOT;
              }
              else {
-                 startx = x;
-                 starty = y;
-                 if (Bounce.ball == null && level.getCurrentSlingshot().isTouching(x / 5, Bounce.height - y / 5)) {
-                     Bounce.ball = new Ball(x / 5, (Bounce.height - y / 5), 20, Level.world);
-                     lock = false;
-                 } else {
-                     lock = true;
-                 }
+                 mode = touchMode.SCROLL;
              }
          }
          return false;
@@ -50,11 +53,14 @@ public class Input implements InputProcessor {
 
     @Override
     public boolean touchUp (int x, int y, int pointer, int button) {
-        if (pointer == 0 && Bounce.ball!=null) {
-            double strength = Math.hypot(startx - x, starty - y) / 80;
-            if (!lock) {
+        if (pointer == 0) {
+            if (mode == touchMode.SLINGSHOT && Bounce.ball!=null) {
+                double strength = Math.hypot(startx - x, starty - y) / 80;
                 Bounce.ball.setVelocity((startx-x) * (float)strength, -(starty-y) * (float)strength);
                 Bounce.ball.enableGravity();
+            }
+            else if (mode == touchMode.SCROLL) {
+                // TODO Implement Kinetic Scrolling
             }
         }
         return false;
@@ -62,9 +68,12 @@ public class Input implements InputProcessor {
 
     @Override
     public boolean touchDragged (int x, int y, int pointer) {
-        if (pointer == 0 && Bounce.ball!=null) {
-            if (!lock) {
+        if (pointer == 0) {
+            if (mode == touchMode.SLINGSHOT && Bounce.ball!=null) {
                 Bounce.ball.setPosition(x/5,Bounce.height-y/5);
+            }
+            else if (mode == touchMode.SCROLL) {
+                // TODO Implement Scrolling
             }
         }
         return false;

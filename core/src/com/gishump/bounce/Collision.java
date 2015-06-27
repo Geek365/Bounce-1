@@ -50,6 +50,9 @@ public class Collision implements ContactListener {
             else if ((fixtureA.getUserData().equals(Level.ENDPOINT)) || (fixtureB.getUserData().equals(Level.ENDPOINT))) {
                 endpointHandler();
             }
+            else if ((fixtureA.getUserData().getClass() == Slingshot.class) || (fixtureB.getUserData().getClass() == Slingshot.class)) {
+                slingshotHandler();
+            }
             collisionToProcess = false;
         }
     }
@@ -67,9 +70,7 @@ public class Collision implements ContactListener {
         }
     }
 
-    public void wallHandler() {
-        Bounce.state = Bounce.status.LOST;
-    }
+    public void wallHandler() { Bounce.state = Bounce.status.LOST; }
 
     public void endpointHandler() {
         Bounce.state = Bounce.status.WON;
@@ -84,6 +85,10 @@ public class Collision implements ContactListener {
         }
         Vector2 ballVelocity = bll.getBody().getLinearVelocity();
         bll.setVelocity(ballVelocity.x*10, ballVelocity.y *10);
+    }
+
+    public void slingshotHandler() {
+        // TODO Implement Slingshot Handler
     }
 
 }

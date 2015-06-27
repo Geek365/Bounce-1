@@ -225,7 +225,6 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 		return 0;
 	}
 
-
 	@Override
 	public void userPayment(){
 	}

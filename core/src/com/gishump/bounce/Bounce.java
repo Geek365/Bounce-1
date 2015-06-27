@@ -38,7 +38,7 @@ public class Bounce extends ApplicationAdapter {
         prefs = Gdx.app.getPreferences("Preferences");
         collision = new Collision();
         level = new Level(camera);
-        ip = new Input(level,androidHandler);
+        ip = new Input(level,androidHandler, camera);
         Level.world.setContactListener(collision);
         loadUserData();
         Gdx.input.setInputProcessor(ip);
@@ -52,6 +52,7 @@ public class Bounce extends ApplicationAdapter {
         debugRenderer.render(Level.world, camera.getCombinedMatrix());
         if (state == status.RUNNING) { level.render(); }
         else if (state == status.PAUSED) { } // TODO Implement Dimming
+        else if (state == status.IDLE) { camera.checkFinishedShowing(); }
         else if (state == status.WON) { playerWins(); }
         else if (state == status.LOST) { playerLoses(); }
     }

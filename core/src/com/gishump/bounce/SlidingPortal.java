@@ -7,7 +7,7 @@ public class SlidingPortal extends Portal{
     private int aEndpoint, bEndpoint;
     private float aSpeed, bSpeed;
     private boolean aMovement, bMovement; // false = vertical, true = horizontal
-    private boolean aDirection, bDirection; // false = up , true = down || // false = right, true = left
+    private boolean aDirection, bDirection; // false = up/right , true = down/left
 
     public SlidingPortal(int aX, int aY, int bX, int bY, int aEnd, int bEnd,
                          boolean aMvmt, boolean bMvmt, float aSpd, float bSpd,  World world) {

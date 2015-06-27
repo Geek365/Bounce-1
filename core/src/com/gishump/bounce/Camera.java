@@ -14,17 +14,19 @@ public class Camera {
     }
 
     public void showLevel() {
-
+        cameraPosition = Bounce.width - Level.currentLevelWidth;
+        if (cameraPosition<Bounce.width/4) { cameraPosition = 0; } // Don't Bother Showing Level
+        else { Bounce.state = Bounce.status.IDLE; }
     }
 
     public void checkFinishedShowing() {
-
+        camera.position.set((Bounce.width * .5f)+ cameraPosition, Bounce.height * .5f, 0);
+        if (cameraPosition == 0) Bounce.state = Bounce.status.RUNNING;
+        else cameraPosition--;
     }
 
     public Matrix4 getCombinedMatrix() {
         return camera.combined;
     }
-
-
 
 }

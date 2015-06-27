@@ -24,7 +24,7 @@ public class Level {
     private ArrayList<Portal> portals;
     private ArrayList<Slingshot> slingshots;
     private int currentSlingshot;
-    private int currentLevelWidth;
+    public static int currentLevelWidth;
     private Camera camera;
 
     public Level(Camera cam) {
@@ -95,6 +95,7 @@ public class Level {
             slingshots.add(new Slingshot(300, 150, world)); // For Testing
             gameObjects.add(new Trampoline(230, 23, 60, 0, world)); // For Testing
             gameObjects.add(new Endpoint(1, 100, world));
+            camera.showLevel();
         }
     }
 

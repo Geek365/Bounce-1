@@ -40,9 +40,7 @@ public class Slingshot {
         return (int)(xPosition + (width/2));
     }
 
-    public void draw(){
-
-    }
+    public void draw(){ }
 
     public Body getBody() { return slingshotBody; }
 }
