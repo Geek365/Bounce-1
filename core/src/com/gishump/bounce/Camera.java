@@ -14,15 +14,21 @@ public class Camera {
     }
 
     public void showLevel() {
-        cameraPosition = Bounce.width - Level.currentLevelWidth;
-        if (cameraPosition<Bounce.width/4) { cameraPosition = 0; } // Don't Bother Showing Level
-        else { Bounce.state = Bounce.status.IDLE; }
+        cameraPosition = Level.currentLevelWidth - Bounce.width/5;
+        if (cameraPosition<Bounce.width/4) { // Don't Bother Showing Level
+            cameraPosition = 0;
+            Bounce.state = Bounce.status.RUNNING;
+        }
+        else {
+            Bounce.state = Bounce.status.IDLE;
+        }
     }
 
     public void checkFinishedShowing() {
-        camera.position.set((Bounce.width * .5f)+ cameraPosition, Bounce.height * .5f, 0);
-        if (cameraPosition == 0) Bounce.state = Bounce.status.RUNNING;
-        else cameraPosition--;
+        camera.position.set((Bounce.width * .5f) + cameraPosition, Bounce.height * .5f, 0);
+        camera.update();
+        if (cameraPosition <= 0) { cameraPosition=0 ; Bounce.state = Bounce.status.RUNNING; }
+        else cameraPosition-=2;
     }
 
     public Matrix4 getCombinedMatrix() {

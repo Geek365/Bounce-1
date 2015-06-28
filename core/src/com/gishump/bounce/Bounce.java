@@ -42,7 +42,6 @@ public class Bounce extends ApplicationAdapter {
         Level.world.setContactListener(collision);
         loadUserData();
         Gdx.input.setInputProcessor(ip);
-        state = status.RUNNING;
 	}
 
 	@Override
@@ -87,7 +86,6 @@ public class Bounce extends ApplicationAdapter {
                             attempts = prefs.getInteger("level"+a+"Attempts", 1);
                             resetBall();
                             level.loadLevel(a);
-                            state = status.RUNNING;
                         }
 
                         @Override

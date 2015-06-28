@@ -6,4 +6,11 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFullscreen">true</item>
+    </style></file><file path="/Users/Jeff/AndroidStudioProjects/Bounce/android/res/values-v21/styles.xml" qualifiers="v21"><style name="GdxTheme" parent="android:Theme.Material.Light">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
     </style></file></source><source path="/Users/Jeff/AndroidStudioProjects/Bounce/android/build/generated/res/rs/release"/><source path="/Users/Jeff/AndroidStudioProjects/Bounce/android/build/generated/res/generated/release"/></dataSet><dataSet config="release"><source path="/Users/Jeff/AndroidStudioProjects/Bounce/android/src/release/res"/></dataSet><mergedItems/></merger>

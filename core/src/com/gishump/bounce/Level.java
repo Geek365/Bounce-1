@@ -129,13 +129,13 @@ public class Level {
         wallDef.position.set(currentLevelWidth+70,(Bounce.height+200)/2);
         rightWall = world.createBody(wallDef);
         PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(currentLevelWidth+34, 1f);
+        groundBox.setAsBox(currentLevelWidth+34, 0f);
         Fixture bottomWallFix = bottomWall.createFixture(groundBox, 0f);
-        groundBox.setAsBox(currentLevelWidth+34, 1f);
+        groundBox.setAsBox(currentLevelWidth+34, 0f);
         Fixture topWallFix = topWall.createFixture(groundBox, 0f);
-        groundBox.setAsBox(1f, Bounce.height+25);
+        groundBox.setAsBox(0f, Bounce.height+25);
         Fixture leftWallFix = leftWall.createFixture(groundBox, 0f);
-        groundBox.setAsBox(1f, Bounce.height+25);
+        groundBox.setAsBox(0f, Bounce.height+25);
         Fixture rightWallFix = rightWall.createFixture(groundBox, 0f);
         bottomWallFix.setUserData(WALL);
         topWallFix.setUserData(WALL);

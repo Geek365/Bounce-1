@@ -227,8 +227,7 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 	}
 
 	@Override
-	public void userPayment(){
-	}
+	public void userPayment(){ }
 
 	@Override
 	public boolean arePurchasesAvailable () {
