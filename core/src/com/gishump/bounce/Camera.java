@@ -14,8 +14,8 @@ public class Camera {
     }
 
     public void showLevel() {
-        cameraPosition = Level.currentLevelWidth - Bounce.width/5;
-        if (cameraPosition<Bounce.width/4) { // Don't Bother Showing Level
+        cameraPosition = Level.currentLevelWidth - Bounce.width;
+        if (cameraPosition<Bounce.width/2) { // Don't Bother Showing Level
             cameraPosition = 0;
             Bounce.state = Bounce.status.RUNNING;
         }
