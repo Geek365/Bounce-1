@@ -8,15 +8,12 @@ import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.Menu;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
-import android.widget.PopupMenu;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+
 import com.gishump.bounce.Bounce;
 import com.gishump.bounce.DialogResult;
 import com.gishump.bounce.RequestHandler;
@@ -60,7 +57,10 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 		mHelper = new IabHelper(this, "MyKey");
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
 			public void onIabSetupFinished(IabResult result) {
-				if (!result.isSuccess()) { levelsPaidFor = 30; purchasesAvailable=false; } // 30 Levels Included With Game By Default
+				if (!result.isSuccess()) {
+					levelsPaidFor = 30;
+					purchasesAvailable = false;
+				} // 30 Levels Included With Game By Default
 				else {
 					ArrayList additionalSkuList = new ArrayList();
 					additionalSkuList.add("Pack 1");

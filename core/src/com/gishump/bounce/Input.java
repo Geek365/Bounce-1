@@ -19,18 +19,19 @@ public class Input extends InputAdapter {
      @Override
      public boolean touchDown (int x, int y, int pointer, int button) {
          if (pointer == 0) {
+             camera.setVelocity(0);
              startx = x;
              starty = y;
-             if (x < 80 && y < 80) {
-                 androidHandler.showMenu();
-                 mode = touchMode.NONE;
-             }
-             else if (x/5 > Bounce.width - 80 && y/5 > Bounce.height - 80) {
+             if (x < 130 && y < 130) {
                  Bounce.state = Bounce.status.LOST;
                  mode = touchMode.NONE;
              }
-             else if (Bounce.ball == null && level.getCurrentSlingshot().isTouching((x / 5), Bounce.height - y / 5)) {
-                 Bounce.ball = new Ball(x / 5, (Bounce.height - y / 5), 20, Level.world);
+             else if (x > Bounce.rawWidth - 130 && y < 130) {
+                 androidHandler.showMenu();
+                 mode = touchMode.NONE;
+             }
+             else if (Bounce.ball == null && level.getCurrentSlingshot().isTouching((x / 5)+camera.getPosition(), Bounce.height - y / 5)) {
+                 Bounce.ball = new Ball(x/5+camera.getPosition(), (Bounce.height - y / 5), 20, Level.world);
                  mode = touchMode.SLINGSHOT;
              }
              else {
@@ -63,7 +64,7 @@ public class Input extends InputAdapter {
     public boolean touchDragged (int x, int y, int pointer) {
         if (pointer == 0) {
             if (mode == touchMode.SLINGSHOT && Bounce.ball!=null) {
-                Bounce.ball.setPosition(x/5,Bounce.height-y/5);
+                Bounce.ball.setPosition(x/5+camera.getPosition(),Bounce.height-y/5);
             }
             else if (mode == touchMode.SCROLL) {
                 return false;

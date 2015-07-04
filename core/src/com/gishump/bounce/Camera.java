@@ -56,7 +56,6 @@ public class Camera {
 
     public void update() {
         if (velocity != 0) {
-            System.out.println(velocity);
             move(velocity);
             //velocity *= deacceleration;
         }

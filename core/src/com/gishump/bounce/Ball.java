@@ -14,7 +14,7 @@ public class Ball implements GameObject{
     private final Fixture ballFixture;
     public boolean released;
 
-    public Ball (int x, int y, float rad, World world) {
+    public Ball (float x, float y, float rad, World world) {
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.position.set(x,y);

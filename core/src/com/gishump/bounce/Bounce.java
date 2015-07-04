@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.input.GestureDetector;
@@ -15,10 +14,12 @@ public class Bounce extends ApplicationAdapter {
     public enum status {RUNNING, PAUSED, WON, LOST, IDLE};
     public static status state;
     public static int height, width;
+    public static int rawHeight, rawWidth;
     public static Collision collision;
     public static Ball ball;
     private Camera camera;
     private Box2DDebugRenderer debugRenderer;
+    private ShapeRenderer shapeRenderer;
     private final RequestHandler androidHandler;
     private InputProcessor ip;
     private GestureDetector.GestureAdapter gd;
@@ -30,7 +31,7 @@ public class Bounce extends ApplicationAdapter {
     private int maxLevel = 0;
     private int levelsPaidFor = 30;
     private boolean nagMessage;
-    private FPSLogger fps;
+    //private FPSLogger fps;
 
     public Bounce(RequestHandler handler) {
         androidHandler = handler;
@@ -38,11 +39,14 @@ public class Bounce extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-        width = Gdx.graphics.getWidth() / 5;
-        height = Gdx.graphics.getHeight() / 5;
+        rawWidth = Gdx.graphics.getWidth();
+        rawHeight = Gdx.graphics.getHeight();
+        width = rawWidth / 5;
+        height = rawHeight / 5;
         Gdx.graphics.setVSync(true);
         camera = new Camera(width, height);
         debugRenderer = new Box2DDebugRenderer();
+        shapeRenderer = new ShapeRenderer();
         prefs = Gdx.app.getPreferences("Preferences");
         collision = new Collision();
         level = new Level(camera);
@@ -53,7 +57,7 @@ public class Bounce extends ApplicationAdapter {
         Level.world.setContactListener(collision);
         loadUserData();
         Gdx.input.setInputProcessor(im);
-        fps = new FPSLogger();
+        //fps = new FPSLogger();
 	}
 
 	@Override
@@ -62,11 +66,11 @@ public class Bounce extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(Level.world, camera.getCombinedMatrix());
         camera.update();
-        if (state == status.RUNNING) { level.render(); }
+        if (state == status.RUNNING) { level.render(); drawMenuIcon(); }
         else if (state == status.PAUSED) { } // TODO Implement Dimming
-        else if (state == status.IDLE) { camera.checkFinishedShowing(); }
+        else if (state == status.IDLE) { camera.checkFinishedShowing(); drawMenuIcon(); }
         else if (state == status.WON) { playerWins(); }
-        else if (state == status.LOST) { playerLoses(); }
+        else if (state == status.LOST) { playerLoses(); drawMenuIcon(); }
     }
 
     public void loadUserData() {
@@ -96,7 +100,7 @@ public class Bounce extends ApplicationAdapter {
                             prefs.putBoolean("nagMessage", false);
                             prefs.putInteger("currentLevel", a);
                             prefs.flush();
-                            attempts = prefs.getInteger("level"+a+"Attempts", 1);
+                            attempts = prefs.getInteger("level" + a + "Attempts", 1);
                             resetBall();
                             level.loadLevel(a);
                         }
@@ -152,8 +156,18 @@ public class Bounce extends ApplicationAdapter {
     }
 
     public void resetBall() {
-        if (ball != null) { Level.world.destroyBody(ball.getBody()); }
+        if (ball != null) {
+            Level.world.destroyBody(ball.getBody()); }
         ball = null;
+    }
+
+    public void drawMenuIcon() {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(1, 1, 1, 1);
+        shapeRenderer.rect(rawWidth-70, rawHeight-50,20,20);
+        shapeRenderer.rect(rawWidth-70, rawHeight-80,20,20);
+        shapeRenderer.rect(rawWidth-70, rawHeight-110,20,20);
+        shapeRenderer.end();
     }
 
     @Override

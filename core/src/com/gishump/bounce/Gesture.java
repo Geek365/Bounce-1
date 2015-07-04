@@ -4,7 +4,6 @@ import com.badlogic.gdx.input.GestureDetector;
 
 public class Gesture extends GestureDetector.GestureAdapter {
     private final Camera camera;
-    private boolean flingDirection; // false=left, true=right
 
     public Gesture(Camera cam) {
         camera = cam;

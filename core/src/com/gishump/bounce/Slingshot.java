@@ -44,7 +44,7 @@ public class Slingshot {
         for (int i=0; i < list.size; i++) {
             Fixture a = list.get(i).getFixtureA();
             Fixture b = list.get(i).getFixtureB();
-            if (list.get(i).isTouching() && ((a.getUserData()==Ball.class) || b.getUserData()==Ball.class) && (a.getUserData()==
+            if (((a.getUserData()==Ball.class) || b.getUserData()==Ball.class) && (a.getUserData()==
                     Slingshot.class || b.getUserData()==Slingshot.class)) {
                 return true;
             }
