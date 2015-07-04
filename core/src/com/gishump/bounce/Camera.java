@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.TimeUtils;
 
 public class Camera {
-    private float cameraPosition;
+    private float position;
+    private float velocity;
+    private final float deacceleration = .09f;
     private final OrthographicCamera camera;
 
     public Camera(int width, int height) {
@@ -15,9 +17,9 @@ public class Camera {
     }
 
     public void showLevel() {
-        cameraPosition = Level.currentLevelWidth - Bounce.width;
-        if (cameraPosition<Bounce.width/2) { // Don't Bother Showing Level
-            cameraPosition = 0;
+        position = Level.currentLevelWidth - Bounce.width;
+        if (position<Bounce.width/2) { // Don't Bother Showing Level
+            position = 0;
             Bounce.state = Bounce.status.RUNNING;
         }
         else {
@@ -26,24 +28,40 @@ public class Camera {
     }
 
     public void move(float delta) {
-        if (delta + cameraPosition > 0 && delta + cameraPosition < Level.currentLevelWidth) {
-            cameraPosition += delta;
-            camera.position.set(Bounce.width * .5f + cameraPosition, Bounce.height * .5f, 0);
+        if (delta + position < 0) {
+            position = 0;
+            velocity = 0;
         }
+        else if (delta + position > (Level.currentLevelWidth - Bounce.width)) {
+            position = Level.currentLevelWidth - Bounce.width;
+            velocity = 0;
+        }
+        else {
+            position += delta;
+        }
+        camera.position.set(Bounce.width * .5f + position, Bounce.height * .5f, 0);
     }
 
+    public void setVelocity(float vel) { velocity = vel; }
 
 
-    public float getCameraPosition() { return cameraPosition; }
+    public float getPosition() { return position; }
 
     public void checkFinishedShowing() {
-        camera.position.set((Bounce.width * .5f) + cameraPosition, Bounce.height * .5f, 0);
+        camera.position.set((Bounce.width * .5f) + position, Bounce.height * .5f, 0);
         camera.update();
-        if (cameraPosition <= 0) { cameraPosition=0 ; Bounce.state = Bounce.status.RUNNING; }
-        else cameraPosition-=2;
+        if (position <= 0) { position=0 ; Bounce.state = Bounce.status.RUNNING; }
+        else position-=2;
     }
 
-    public void update() { camera.update(); }
+    public void update() {
+        if (velocity != 0) {
+            System.out.println(velocity);
+            move(velocity);
+            //velocity *= deacceleration;
+        }
+        camera.update();
+    }
 
     public Matrix4 getCombinedMatrix() {
         return camera.combined;
