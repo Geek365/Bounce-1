@@ -68,5 +68,4 @@ public class Portal{
     public Body getPortalABody() { return portalA; }
 
     public Body getPortalBBody() { return portalB; }
-
 }

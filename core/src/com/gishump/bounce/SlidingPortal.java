@@ -75,5 +75,4 @@ public class SlidingPortal extends Portal{
     public int getHorizontalEnd() {
         return (aEndpoint > bEndpoint ? aEndpoint:bEndpoint) + 10;
     }
-
 }

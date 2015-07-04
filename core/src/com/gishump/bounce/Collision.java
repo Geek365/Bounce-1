@@ -101,5 +101,4 @@ public class Collision implements ContactListener {
             // TODO Set Slingshot Hit As New Current and Make Ball Disappear
         }
     }
-
 }

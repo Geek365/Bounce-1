@@ -1,8 +1,8 @@
 package com.gishump.bounce;
 
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.InputAdapter;
 
-public class Input implements InputProcessor {
+public class Input extends InputAdapter {
     private int startx, starty;
     private enum touchMode {SLINGSHOT, SCROLL, NONE};
     private touchMode mode;
@@ -14,21 +14,6 @@ public class Input implements InputProcessor {
         level = lvl;
         androidHandler = ah;
         camera = cam;
-    }
-
-    @Override
-    public boolean keyDown (int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp (int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped (char character) {
-        return false;
     }
 
      @Override
@@ -44,15 +29,16 @@ public class Input implements InputProcessor {
                  Bounce.state = Bounce.status.LOST;
                  mode = touchMode.NONE;
              }
-             else if (Bounce.ball == null && level.getCurrentSlingshot().isTouching(x / 5, Bounce.height - y / 5)) {
+             else if (Bounce.ball == null && level.getCurrentSlingshot().isTouching((x / 5), Bounce.height - y / 5)) {
                  Bounce.ball = new Ball(x / 5, (Bounce.height - y / 5), 20, Level.world);
                  mode = touchMode.SLINGSHOT;
              }
              else {
                  mode = touchMode.SCROLL;
+                 return false;
              }
          }
-         return false;
+         return true;
      }
 
     @Override
@@ -62,15 +48,15 @@ public class Input implements InputProcessor {
                 double strength = Math.hypot(startx - x, starty - y) / 80;
                 Bounce.ball.setVelocity((startx-x) * (float)strength, -(starty-y) * (float)strength);
                 Bounce.ball.released = true;
-                if (level.getCurrentSlingshot().isTouching(x / 5, Bounce.height - y / 5)) {
+                if (level.getCurrentSlingshot().isBallTouching()) {
                     Bounce.ball.enableGravity();
                 }
             }
             else if (mode == touchMode.SCROLL) {
-                // TODO Implement Kinetic Scrolling
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -80,19 +66,9 @@ public class Input implements InputProcessor {
                 Bounce.ball.setPosition(x/5,Bounce.height-y/5);
             }
             else if (mode == touchMode.SCROLL) {
-                // TODO Implement Scrolling
+                return false;
             }
         }
-        return false;
-    }
-
-    @Override
-    public boolean scrolled (int amount) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int x, int y) {
         return true;
     }
 }

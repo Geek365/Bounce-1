@@ -95,7 +95,7 @@ public class Level {
             createWalls();
             slingshots.add(new Slingshot(300, 150, 0, world)); // For Testing
             gameObjects.add(new Trampoline(230, 23, 60, 0, world)); // For Testing
-            gameObjects.add(new Endpoint(1, 100, world));
+            gameObjects.add(new Endpoint(1, 100, world)); // For Testing
             camera.showLevel();
         }
     }
@@ -150,5 +150,4 @@ public class Level {
                 g.update();
             }
     }
-
 }

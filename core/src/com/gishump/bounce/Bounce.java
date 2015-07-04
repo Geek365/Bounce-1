@@ -2,9 +2,13 @@ package com.gishump.bounce;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class Bounce extends ApplicationAdapter {
@@ -17,6 +21,8 @@ public class Bounce extends ApplicationAdapter {
     private Box2DDebugRenderer debugRenderer;
     private final RequestHandler androidHandler;
     private InputProcessor ip;
+    private GestureDetector.GestureAdapter gd;
+    private InputMultiplexer im;
     private Level level;
     private Preferences prefs;
     private int attempts = 1;
@@ -24,6 +30,7 @@ public class Bounce extends ApplicationAdapter {
     private int maxLevel = 0;
     private int levelsPaidFor = 30;
     private boolean nagMessage;
+    private FPSLogger fps;
 
     public Bounce(RequestHandler handler) {
         androidHandler = handler;
@@ -33,15 +40,20 @@ public class Bounce extends ApplicationAdapter {
 	public void create () {
         width = Gdx.graphics.getWidth() / 5;
         height = Gdx.graphics.getHeight() / 5;
+        Gdx.graphics.setVSync(true);
         camera = new Camera(width, height);
         debugRenderer = new Box2DDebugRenderer();
         prefs = Gdx.app.getPreferences("Preferences");
         collision = new Collision();
         level = new Level(camera);
+        ShapeRenderer shapeRenderer  = new ShapeRenderer();
         ip = new Input(level,androidHandler, camera);
+        gd = new Gesture(camera);
+        im = new InputMultiplexer(ip, new GestureDetector(gd));
         Level.world.setContactListener(collision);
         loadUserData();
-        Gdx.input.setInputProcessor(ip);
+        Gdx.input.setInputProcessor(im);
+        fps = new FPSLogger();
 	}
 
 	@Override
@@ -49,6 +61,7 @@ public class Bounce extends ApplicationAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         debugRenderer.render(Level.world, camera.getCombinedMatrix());
+        camera.update();
         if (state == status.RUNNING) { level.render(); }
         else if (state == status.PAUSED) { } // TODO Implement Dimming
         else if (state == status.IDLE) { camera.checkFinishedShowing(); }

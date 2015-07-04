@@ -2,6 +2,7 @@ package com.gishump.bounce;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.TimeUtils;
 
 public class Camera {
     private float cameraPosition;
@@ -24,6 +25,17 @@ public class Camera {
         }
     }
 
+    public void move(float delta) {
+        if (delta + cameraPosition > 0 && delta + cameraPosition < Level.currentLevelWidth) {
+            cameraPosition += delta;
+            camera.position.set(Bounce.width * .5f + cameraPosition, Bounce.height * .5f, 0);
+        }
+    }
+
+
+
+    public float getCameraPosition() { return cameraPosition; }
+
     public void checkFinishedShowing() {
         camera.position.set((Bounce.width * .5f) + cameraPosition, Bounce.height * .5f, 0);
         camera.update();
@@ -31,8 +43,9 @@ public class Camera {
         else cameraPosition-=2;
     }
 
+    public void update() { camera.update(); }
+
     public Matrix4 getCombinedMatrix() {
         return camera.combined;
     }
-
 }

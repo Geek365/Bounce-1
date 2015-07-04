@@ -42,6 +42,8 @@ public class Ball implements GameObject{
 
     public void setPosition(float x, float y) { ball.setTransform(x,y,ball.getAngle()); }
 
+    public Fixture getFixture() { return ballFixture; }
+
     @Override
     public void draw(){ }
 

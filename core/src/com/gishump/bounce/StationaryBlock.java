@@ -40,5 +40,4 @@ public class StationaryBlock implements GameObject {
 
     @Override
     public int getHorizontalEnd() { return horizontalEnd; }
-
 }
