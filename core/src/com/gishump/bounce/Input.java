@@ -22,9 +22,9 @@ public class Input extends InputAdapter {
              camera.setVelocity(0);
              startx = x;
              starty = y;
-             if (x < 130 && y < 130) {
+             if (x < 130 && y < 130 && Bounce.ball!=null) {
                  Bounce.state = Bounce.status.LOST;
-                 mode = touchMode.NONE;
+                mode = touchMode.NONE;
              }
              else if (x > Bounce.rawWidth - 130 && y < 130) {
                  androidHandler.showMenu();
@@ -49,7 +49,8 @@ public class Input extends InputAdapter {
                 double strength = Math.hypot(startx - x, starty - y) / 80;
                 Bounce.ball.setVelocity((startx-x) * (float)strength, -(starty-y) * (float)strength);
                 Bounce.ball.released = true;
-                if (level.getCurrentSlingshot().isBallTouching()) {
+                if (level.getCurrentSlingshot().isBallTouching((x/5)+camera.getPosition(), Bounce.height - y / 5,
+                        Bounce.ball.getPosition().x, Bounce.ball.getPosition().y, Bounce.ball.getRadius())) {
                     Bounce.ball.enableGravity();
                 }
             }

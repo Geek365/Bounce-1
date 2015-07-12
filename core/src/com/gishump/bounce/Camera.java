@@ -20,9 +20,11 @@ public class Camera {
         position = Level.currentLevelWidth - Bounce.width;
         if (position<Bounce.width/2) { // Don't Bother Showing Level
             position = 0;
+            camera.update();
             Bounce.state = Bounce.status.RUNNING;
         }
         else {
+            camera.update();
             Bounce.state = Bounce.status.IDLE;
         }
     }
@@ -43,7 +45,6 @@ public class Camera {
     }
 
     public void setVelocity(float vel) { velocity = vel; }
-
 
     public float getPosition() { return position; }
 

@@ -53,7 +53,7 @@ public class Level {
 
     private boolean levelExists(int levelnum) {
         try {
-            Gdx.files.internal("levels/" + levelnum + ".lvl");
+            Gdx.files.internal("levels/" + levelnum + ".lvl").exists();
             return true;
         }
         catch (GdxRuntimeException e) { return false; }
@@ -93,7 +93,7 @@ public class Level {
                 }
             }
             createWalls();
-            slingshots.add(new Slingshot(300, 150, 0, world)); // For Testing
+            //slingshots.add(new Slingshot(300, 150, 0, world)); // For Testing
             gameObjects.add(new Trampoline(230, 23, 60, 0, world)); // For Testing
             gameObjects.add(new Endpoint(1, 100, world)); // For Testing
             camera.showLevel();

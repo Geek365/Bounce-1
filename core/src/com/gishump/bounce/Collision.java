@@ -97,8 +97,10 @@ public class Collision implements ContactListener {
             bll = (Ball) fixtureA.getUserData();
         }
         if (sst.getID() == Level.currentSlingshot && bll.released) { bll.enableGravity(); } // Gravity Starts Once Ball Passes The Slingshot
-        else {
-            // TODO Set Slingshot Hit As New Current and Make Ball Disappear
+        else if (sst.getID() != Level.currentSlingshot){
+            Level.currentSlingshot = sst.getID();
+            Level.world.destroyBody(bll.getBody());
+            Bounce.ball = null;
         }
     }
 }

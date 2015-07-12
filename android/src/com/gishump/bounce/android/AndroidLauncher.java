@@ -1,15 +1,20 @@
 package com.gishump.bounce.android;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.ContextThemeWrapper;
-import android.view.Gravity;
 import android.view.Menu;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.NumberPicker;
+import android.widget.GridView;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
@@ -18,14 +23,17 @@ import com.gishump.bounce.Bounce;
 import com.gishump.bounce.DialogResult;
 import com.gishump.bounce.RequestHandler;
 
-import java.util.ArrayList;
-
 public class AndroidLauncher extends AndroidApplication implements RequestHandler {
 
+	private Activity context;
 	private IabHelper mHelper;
 	private int levelsPaidFor = -1; // -1 Value Not Yet Retrieved
+	private int levelsAvailable=54;
 	private boolean purchasesAvailable;
 	private String nextAvailableSKU="";
+	private GridView[] levelGrids;
+    private PagerAdapter levelPageAdapter;
+    private ViewPager levelPager;
 
 	IabHelper.QueryInventoryFinishedListener
 			mQueryFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
@@ -40,7 +48,6 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 					purchasesAvailable = false;
 					//nextAvailableSKU = (inventory.hasPurchase("Pack 2")) ? "Pack 3" : "Pack 2";
 					//nextAvailableSKU = (inventory.hasPurchase("Pack 1")) ? nextAvailableSKU : "Pack 1";
-
 				}
 			}
 		}
@@ -48,6 +55,7 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
+		context = this;
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useWakelock=true;
@@ -56,21 +64,21 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 		config.useImmersiveMode=true;
 		mHelper = new IabHelper(this, "MyKey");
 		mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
-			public void onIabSetupFinished(IabResult result) {
-				if (!result.isSuccess()) {
-					levelsPaidFor = 30;
-					purchasesAvailable = false;
-				} // 30 Levels Included With Game By Default
-				else {
-					ArrayList additionalSkuList = new ArrayList();
-					additionalSkuList.add("Pack 1");
-					additionalSkuList.add("Pack 2");
-					additionalSkuList.add("Pack 3");
-					mHelper.queryInventoryAsync(true, additionalSkuList,
-							mQueryFinishedListener);
-				}
-			}
-		});
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    levelsPaidFor = 30;
+                    purchasesAvailable = false;
+                } // 30 Levels Included With Game By Default
+                else {
+                    ArrayList additionalSkuList = new ArrayList();
+                    additionalSkuList.add("Pack 1");
+                    additionalSkuList.add("Pack 2");
+                    additionalSkuList.add("Pack 3");
+                    mHelper.queryInventoryAsync(true, additionalSkuList,
+                            mQueryFinishedListener);
+                }
+            }
+        });
 		initialize(new Bounce(this), config);
 	}
 
@@ -94,7 +102,7 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 		runOnUiThread(new Runnable(){
 			@Override
 			public void run() {
-				new AlertDialog.Builder(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog))
+				Dialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog))
 						.setTitle("Level Completed")
 						.setMessage("Attempts: " + String.valueOf(attempts))
 						.setCancelable(false)
@@ -112,42 +120,48 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 								dialog.cancel();
 							}
 						})
-						.create().show();
+						.create();
+				dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+				dialog.show();
+				dialog.getWindow().getDecorView().setSystemUiVisibility(
+						context.getWindow().getDecorView().getSystemUiVisibility());
+				dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
 			}
 		});
 	}
 
 	@Override
 	public void noPurchasesAvailable(final DialogResult result) {
-		runOnUiThread(new Runnable(){
-			@Override
-			public void run() {
-				new AlertDialog.Builder(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog))
-						.setTitle("No More Levels Available")
-						.setMessage("Congratulations, you have finished all of the available levels in the game.\n" +
-								"There currently aren't any more levels available for purchase.\n" +
-								"You may check for new levels in the future by selecting 'Get New Levels' in the menu.")
-						.setCancelable(false)
-						.setNegativeButton("Exit Game", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								result.no();
-								dialog.cancel();
-							}
-						})
-						.setPositiveButton("Replay An Old Level", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								result.yes(0);
-								dialog.cancel();
-							}
-						})
-						//.getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-
-						.create().show();
-
-			}
-		});
+		runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Dialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog))
+                        .setTitle("No More Levels Available")
+                        .setMessage("Congratulations, you have finished all of the available levels in the game.\n" +
+                                "There currently aren't any more levels available for purchase.\n" +
+                                "You may check for new levels in the future by selecting 'Get New Levels' in the menu.")
+                        .setCancelable(false)
+                        .setNegativeButton("Exit Game", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                result.no();
+                                dialog.cancel();
+                            }
+                        })
+                        .setPositiveButton("Replay An Old Level", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                result.yes(0);
+                                dialog.cancel();
+                            }
+                        }).create();
+                dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+                dialog.show();
+                dialog.getWindow().getDecorView().setSystemUiVisibility(
+                        context.getWindow().getDecorView().getSystemUiVisibility());
+                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+            }
+        });
 	}
 
 	@Override
@@ -155,28 +169,38 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 		runOnUiThread(new Runnable(){
 			@Override
 			public void run() {
+                if (levelsAvailable%16==0) { levelGrids = new GridView[levelsAvailable/16]; }
+                else { levelGrids = new GridView[(levelsAvailable/16)+1]; }
+                //System.out.println(levelGrids.length);
+                for (int i=0; i < levelGrids.length; i++) {
+                    levelGrids[i] = new GridView(AndroidLauncher.this);
+                    levelGrids[i].setNumColumns(4);
+                    levelGrids[i].setStretchMode(GridView.STRETCH_SPACING_UNIFORM);
+                }
+                levelPager = new ViewPager(AndroidLauncher.this);
+                levelPager.setAdapter(new LevelGridPager(levelGrids));
 				AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog));
 				builder.setCancelable(false);
-				final NumberPicker picker = new NumberPicker(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog));
-				picker.setMinValue(0);
-				picker.setMaxValue(5);
 				final FrameLayout parent = new FrameLayout(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog));
-				parent.addView(picker, new FrameLayout.LayoutParams(
-						FrameLayout.LayoutParams.WRAP_CONTENT,
-						FrameLayout.LayoutParams.WRAP_CONTENT,
-						Gravity.CENTER));
+				parent.addView(levelPager);
 				builder.setView(parent);
 				builder.setTitle("Select Level");
-				builder.setPositiveButton("Play", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						result.yes(picker.getValue());
-						dialog.cancel();
-					}
-				});
-				Dialog dialog = builder.create();
+				final Dialog dialog = builder.create();
+                for (int i=0; i<levelGrids.length; i++) {
+                    levelGrids[i].setAdapter(new LevelAdapter(AndroidLauncher.this, i, levelsAvailable, new View.OnClickListener() {
+                        @Override
+                        @SuppressWarnings("")
+                        public void onClick(View v) {
+                            result.yes((int) v.getTag());
+                            dialog.cancel();
+                        }
+                    }));
+                }
+				dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
 				dialog.show();
-
+				dialog.getWindow().getDecorView().setSystemUiVisibility(
+						context.getWindow().getDecorView().getSystemUiVisibility());
+				dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
 			}
 		});
 	}
@@ -186,7 +210,7 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				new AlertDialog.Builder(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog))
+				Dialog dialog = new AlertDialog.Builder(new ContextThemeWrapper(AndroidLauncher.this, android.R.style.Theme_Material_Light_Dialog))
 						.setTitle("New Levels Available")
 						.setMessage("Congratulations, you have finished all of your available levels.\n" +
 										"There are 30 new levels available for purchase."
@@ -205,10 +229,12 @@ public class AndroidLauncher extends AndroidApplication implements RequestHandle
 								result.yes(0);
 								dialog.cancel();
 							}
-						})
-								//.getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-
-						.create().show();
+						}).create();
+				dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+				dialog.show();
+				dialog.getWindow().getDecorView().setSystemUiVisibility(
+						context.getWindow().getDecorView().getSystemUiVisibility());
+				dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
 			}
 		});
 	}

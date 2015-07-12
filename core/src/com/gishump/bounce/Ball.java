@@ -9,12 +9,14 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Ball implements GameObject{
+    private final float radius;
     private final Body ball;
     private final FixtureDef ballFixtureDef;
     private final Fixture ballFixture;
     public boolean released;
 
     public Ball (float x, float y, float rad, World world) {
+        radius = rad;
         BodyDef bdef = new BodyDef();
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.position.set(x,y);
@@ -40,7 +42,11 @@ public class Ball implements GameObject{
 
     public int getHorizontalEnd() { return 0; }
 
+    public float getRadius() { return radius; }
+
     public void setPosition(float x, float y) { ball.setTransform(x,y,ball.getAngle()); }
+
+    public Vector2 getPosition() { return ball.getPosition(); }
 
     public Fixture getFixture() { return ballFixture; }
 

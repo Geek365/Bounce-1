@@ -39,17 +39,9 @@ public class Slingshot {
         return (touchX >= xPosition-width && touchX <= xPosition+width && touchY >= yPosition-height && touchY <= yPosition+height);
     }
 
-    public boolean isBallTouching() {
-        Array<Contact> list = Level.world.getContactList();
-        for (int i=0; i < list.size; i++) {
-            Fixture a = list.get(i).getFixtureA();
-            Fixture b = list.get(i).getFixtureB();
-            if (((a.getUserData()==Ball.class) || b.getUserData()==Ball.class) && (a.getUserData()==
-                    Slingshot.class || b.getUserData()==Slingshot.class)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean isBallTouching(float touchX, float touchY, float ballX, float ballY, float ballRadius) {
+        return (!(xPosition-width < ballX+ballRadius) && !(xPosition+width > ballX-ballRadius) &&
+                !(yPosition+height < ballY-ballRadius) && !(yPosition-height > ballY+ballRadius));
     }
 
     public int getID() { return ID; }
